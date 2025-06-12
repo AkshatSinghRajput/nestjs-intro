@@ -1,0 +1,8 @@
+PATCH https://localhost:3000/posts/
+Content-Type: application/json
+
+{
+  "id": "12345",
+  "title": "Updated Post Title",
+  "content": "This is the updated content of the post."
+}
