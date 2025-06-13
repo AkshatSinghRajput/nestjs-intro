@@ -123,6 +123,16 @@
             </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Authentication controller that handles HTTP requests related to user authentication.</p>
+<p>This controller provides endpoints for user authentication operations such as
+login, logout, and authentication status checks. It integrates with the
+AuthService to handle authentication business logic.</p>
+
+            </p>
 
 
 
@@ -136,9 +146,25 @@
 import { AuthService } from &#x27;./services/auth.service&#x27;;
 import { ApiTags } from &#x27;@nestjs/swagger&#x27;;
 
+/**
+ * Authentication controller that handles HTTP requests related to user authentication.
+ *
+ * This controller provides endpoints for user authentication operations such as
+ * login, logout, and authentication status checks. It integrates with the
+ * AuthService to handle authentication business logic.
+ *
+ * @controller AuthController
+ * @description Handles authentication-related HTTP requests
+ */
 @Controller(&#x27;auth&#x27;)
 @ApiTags(&#x27;Auth&#x27;) // Use ApiTags to group the controller in Swagger documentation
 export class AuthController {
+  /**
+   * Creates an instance of AuthController.
+   *
+   * @param {AuthService} authService - The injected authentication service
+   * @memberof AuthController
+   */
   constructor(private readonly authService: AuthService) {}
 }
 </code></pre>

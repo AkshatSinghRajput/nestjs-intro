@@ -119,6 +119,17 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Posts service that provides post-related business logic and data operations.</p>
+<p>This service handles all post-related operations including post creation,
+retrieval, management, and integration with user services. It provides
+the core business logic for post operations throughout the application,
+including content processing and user association.</p>
+
+            </p>
 
 
 
@@ -166,12 +177,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/posts/services/posts.service.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/posts/services/posts.service.ts:17</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of PostsService.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -180,6 +193,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,6 +208,12 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The injected users service for user operations</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -231,14 +251,24 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="29"
-                                    class="link-to-prism">src/posts/services/posts.service.ts:29</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/posts/services/posts.service.ts:85</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new post with the provided data.</p>
+<p>This method processes the post creation data, validates the content,
+and returns the created post with generated metadata including
+unique identification and creation timestamp.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const newPost = postsService.createPost({
+  title: &quot;Understanding NestJS&quot;,
+  content: &quot;NestJS is a powerful framework...&quot;,
+  postType: &quot;POST&quot;
+});
+// Returns: { id: 789, title: &quot;Understanding NestJS&quot;, ... }</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -249,6 +279,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -263,6 +294,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>The post data for creation</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -272,7 +309,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>The created post object with generated metadata</p>
+
                             </div>
                 </td>
             </tr>
@@ -300,14 +338,27 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="11"
-                                    class="link-to-prism">src/posts/services/posts.service.ts:11</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/posts/services/posts.service.ts:49</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves all posts for a specific user.</p>
+<p>This method fetches all posts associated with the specified user ID,
+including user information and post metadata. It generates simulated
+post data with user context and temporal information.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const posts = postsService.findAll(&#39;123&#39;);
+// Returns: [
+//   {
+//     user: { id: 1231, firstName: &quot;John&quot;, ... },
+//     content: &quot;This is a post content for user 123&quot;,
+//     createdAt: &quot;2023-06-13T...&quot;,
+//     id: 456
+//   }
+// ]</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -318,6 +369,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -332,6 +384,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>The unique identifier of the user</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -341,7 +399,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Array of post objects with user and content information</p>
+
                             </div>
                 </td>
             </tr>
@@ -357,12 +416,50 @@
 import { UsersService } from &#x27;src/users/services/users.service&#x27;;
 import { CreatePostDto } from &#x27;../dtos/create-post.dto&#x27;;
 
+/**
+ * Posts service that provides post-related business logic and data operations.
+ *
+ * This service handles all post-related operations including post creation,
+ * retrieval, management, and integration with user services. It provides
+ * the core business logic for post operations throughout the application,
+ * including content processing and user association.
+ *
+ * @service PostsService
+ * @description Provides post management and data operations
+ */
 @Injectable()
 export class PostsService {
+  /**
+   * Creates an instance of PostsService.
+   *
+   * @param {UsersService} usersService - The injected users service for user operations
+   * @memberof PostsService
+   */
   constructor(
     private readonly usersService: UsersService, // Inject UsersService if needed
   ) {}
 
+  /**
+   * Retrieves all posts for a specific user.
+   *
+   * This method fetches all posts associated with the specified user ID,
+   * including user information and post metadata. It generates simulated
+   * post data with user context and temporal information.
+   *
+   * @param {string} userId - The unique identifier of the user
+   * @returns {object[]} Array of post objects with user and content information
+   * @memberof PostsService
+   * @example
+   * const posts &#x3D; postsService.findAll(&#x27;123&#x27;);
+   * // Returns: [
+   * //   {
+   * //     user: { id: 1231, firstName: &quot;John&quot;, ... },
+   * //     content: &quot;This is a post content for user 123&quot;,
+   * //     createdAt: &quot;2023-06-13T...&quot;,
+   * //     id: 456
+   * //   }
+   * // ]
+   */
   public findAll(userId: string) {
     const user &#x3D; this.usersService.getUserById({ id: Number(userId) });
     return [
@@ -381,6 +478,24 @@ export class PostsService {
     ];
   }
 
+  /**
+   * Creates a new post with the provided data.
+   *
+   * This method processes the post creation data, validates the content,
+   * and returns the created post with generated metadata including
+   * unique identification and creation timestamp.
+   *
+   * @param {CreatePostDto} createPostDto - The post data for creation
+   * @returns {object} The created post object with generated metadata
+   * @memberof PostsService
+   * @example
+   * const newPost &#x3D; postsService.createPost({
+   *   title: &quot;Understanding NestJS&quot;,
+   *   content: &quot;NestJS is a powerful framework...&quot;,
+   *   postType: &quot;POST&quot;
+   * });
+   * // Returns: { id: 789, title: &quot;Understanding NestJS&quot;, ... }
+   */
   public createPost(createPostDto: CreatePostDto) {
     // Here you would typically save the post to a database
     // For now, we will just return the DTO as a simulated response

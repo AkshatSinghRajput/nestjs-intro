@@ -119,6 +119,16 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Users service that provides user-related business logic and data operations.</p>
+<p>This service handles all user-related operations including user retrieval,
+user management, and integration with authentication services. It provides
+the core business logic for user operations throughout the application.</p>
+
+            </p>
 
 
 
@@ -166,12 +176,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/users/services/users.service.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/users/services/users.service.ts:16</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of UsersService.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -180,6 +192,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,6 +207,12 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The injected authentication service</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -231,14 +250,20 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/users/services/users.service.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/users/services/users.service.ts:85</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves a specific user by their unique identifier.</p>
+<p>This method fetches user information based on the provided user ID
+and returns detailed user data including personal information and
+contact details.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const user = usersService.getUserById({ id: 1231 });
+// Returns: { id: 1231, firstName: &quot;John&quot;, lastName: &quot;Doe&quot;, email: &quot;john&#64;hao.com&quot; }</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -249,6 +274,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -263,6 +289,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Parameters containing the user ID</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -272,7 +304,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>User object with detailed information</p>
+
                             </div>
                 </td>
             </tr>
@@ -300,14 +333,20 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="12"
-                                    class="link-to-prism">src/users/services/users.service.ts:12</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/users/services/users.service.ts:45</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves a paginated list of users with optional filtering.</p>
+<p>This method returns a list of users based on the provided parameters,
+with support for pagination and authentication checks. It verifies
+user authorization before returning sensitive user data.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const users = usersService.getUsers({}, 10, 1);
+// Returns: [{ firstName: &quot;John&quot;, lastName: &quot;Doe&quot;, email: &quot;johndoe&#64;fo.com&quot; }, ...]</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -318,6 +357,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -332,6 +372,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Parameters for user filtering</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>limit</td>
@@ -344,6 +390,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Maximum number of users to return</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>page</td>
@@ -356,6 +408,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Page number for pagination</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -365,7 +423,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Array of user objects</p>
+
                             </div>
                 </td>
             </tr>
@@ -381,13 +440,46 @@
 import { GetUserParamsDto } from &#x27;../dtos/get-user-params.dto&#x27;;
 import { AuthService } from &#x27;src/auth/services/auth.service&#x27;;
 
+/**
+ * Users service that provides user-related business logic and data operations.
+ *
+ * This service handles all user-related operations including user retrieval,
+ * user management, and integration with authentication services. It provides
+ * the core business logic for user operations throughout the application.
+ *
+ * @service UsersService
+ * @description Provides user management and data operations
+ */
 @Injectable()
 export class UsersService {
+  /**
+   * Creates an instance of UsersService.
+   *
+   * @param {AuthService} authService - The injected authentication service
+   * @memberof UsersService
+   */
   constructor(
     @Inject(forwardRef(() &#x3D;&gt; AuthService)) // Use forwardRef to avoid circular dependency issues
     private readonly authService: AuthService, // Assuming AuthService is imported from the correct path
   ) {}
 
+  /**
+   * Retrieves a paginated list of users with optional filtering.
+   *
+   * This method returns a list of users based on the provided parameters,
+   * with support for pagination and authentication checks. It verifies
+   * user authorization before returning sensitive user data.
+   *
+   * @param {GetUserParamsDto} getUserParamsDto - Parameters for user filtering
+   * @param {number} limit - Maximum number of users to return
+   * @param {number} page - Page number for pagination
+   * @returns {object[]} Array of user objects
+   * @throws {Error} When user is not authenticated
+   * @memberof UsersService
+   * @example
+   * const users &#x3D; usersService.getUsers({}, 10, 1);
+   * // Returns: [{ firstName: &quot;John&quot;, lastName: &quot;Doe&quot;, email: &quot;johndoe@fo.com&quot; }, ...]
+   */
   public getUsers(
     getUserParamsDto: GetUserParamsDto,
     limit: number,
@@ -414,6 +506,20 @@ export class UsersService {
     throw new Error(&#x27;Unauthorized access&#x27;);
   }
 
+  /**
+   * Retrieves a specific user by their unique identifier.
+   *
+   * This method fetches user information based on the provided user ID
+   * and returns detailed user data including personal information and
+   * contact details.
+   *
+   * @param {GetUserParamsDto} getUserParamsDto - Parameters containing the user ID
+   * @returns {object} User object with detailed information
+   * @memberof UsersService
+   * @example
+   * const user &#x3D; usersService.getUserById({ id: 1231 });
+   * // Returns: { id: 1231, firstName: &quot;John&quot;, lastName: &quot;Doe&quot;, email: &quot;john@hao.com&quot; }
+   */
   public getUserById(getUserParamsDto: GetUserParamsDto) {
     const { id } &#x3D; getUserParamsDto;
     console.log(&#x27;Get user by ID:&#x27;, id);

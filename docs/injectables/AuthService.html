@@ -119,6 +119,16 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Authentication service that provides authentication and authorization logic.</p>
+<p>This service handles user authentication operations including login validation,
+session management, and authorization checks. It integrates with the UsersService
+to validate user credentials and retrieve user information.</p>
+
+            </p>
 
 
 
@@ -166,12 +176,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/auth/services/auth.service.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/auth/services/auth.service.ts:15</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of AuthService.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -180,6 +192,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -194,6 +207,12 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <ul>
+<li>The injected users service for user operations</li>
+</ul>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -231,19 +250,28 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="18"
-                                    class="link-to-prism">src/auth/services/auth.service.ts:18</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">src/auth/services/auth.service.ts:62</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Checks if the current user is authenticated.</p>
+<p>This method verifies the authentication status of the current session
+and returns a boolean indicating whether the user is authenticated.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const isAuthenticated = authService.isAuth();
+// Returns: false (placeholder implementation)</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                         </div>
+                            <div class="io-description">
+                                <p>True if user is authenticated, false otherwise</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -270,14 +298,20 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="11"
-                                    class="link-to-prism">src/auth/services/auth.service.ts:11</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/auth/services/auth.service.ts:43</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Authenticates a user with username and password.</p>
+<p>This method validates user credentials and returns authentication status.
+It retrieves user information from the UsersService and validates the
+provided credentials against stored user data.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const result = authService.login(&#39;john_doe&#39;, &#39;password123&#39;, &#39;1&#39;);
+// Returns: &quot;Logged in successfully&quot;</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -288,6 +322,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -302,6 +337,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>The username for authentication</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>password</td>
@@ -314,6 +355,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>The password for authentication</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                         <tr>
                                                 <td>userId</td>
@@ -326,6 +373,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Optional user ID for additional validation</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -335,7 +388,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Authentication result message</p>
+
                             </div>
                 </td>
             </tr>
@@ -350,13 +404,45 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Inject, forwardRef } from &#x27;@nestjs/common&#x27;;
 import { UsersService } from &#x27;src/users/services/users.service&#x27;;
 
+/**
+ * Authentication service that provides authentication and authorization logic.
+ *
+ * This service handles user authentication operations including login validation,
+ * session management, and authorization checks. It integrates with the UsersService
+ * to validate user credentials and retrieve user information.
+ *
+ * @service AuthService
+ * @description Provides authentication and authorization functionality
+ */
 @Injectable()
 export class AuthService {
+  /**
+   * Creates an instance of AuthService.
+   *
+   * @param {UsersService} usersService - The injected users service for user operations
+   * @memberof AuthService
+   */
   constructor(
     @Inject(forwardRef(() &#x3D;&gt; UsersService)) // Use forwardRef to avoid circular dependency
     private readonly usersService: UsersService, // Assuming UsersService is imported from the correct path
   ) {}
 
+  /**
+   * Authenticates a user with username and password.
+   *
+   * This method validates user credentials and returns authentication status.
+   * It retrieves user information from the UsersService and validates the
+   * provided credentials against stored user data.
+   *
+   * @param {string} username - The username for authentication
+   * @param {string} password - The password for authentication
+   * @param {string} [userId] - Optional user ID for additional validation
+   * @returns {string} Authentication result message
+   * @memberof AuthService
+   * @example
+   * const result &#x3D; authService.login(&#x27;john_doe&#x27;, &#x27;password123&#x27;, &#x27;1&#x27;);
+   * // Returns: &quot;Logged in successfully&quot;
+   */
   public login(username: string, password: string, userId?: string) {
     let user &#x3D; this.usersService.getUserById({
       id: Number(userId),
@@ -364,6 +450,18 @@ export class AuthService {
     return &#x27;Logged in successfully&#x27;; // Placeholder for login logic
   }
 
+  /**
+   * Checks if the current user is authenticated.
+   *
+   * This method verifies the authentication status of the current session
+   * and returns a boolean indicating whether the user is authenticated.
+   *
+   * @returns {boolean} True if user is authenticated, false otherwise
+   * @memberof AuthService
+   * @example
+   * const isAuthenticated &#x3D; authService.isAuth();
+   * // Returns: false (placeholder implementation)
+   */
   public isAuth() {
     return false; // Placeholder for authentication check logic
   }

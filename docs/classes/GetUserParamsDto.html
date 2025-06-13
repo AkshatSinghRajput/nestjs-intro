@@ -123,6 +123,16 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Data Transfer Object for user retrieval parameters.</p>
+<p>This DTO defines the structure and validation rules for user query
+parameters, specifically for retrieving users by their unique identifier.
+It provides optional filtering capabilities for user lookup operations.</p>
+
+            </p>
 
 
 
@@ -195,10 +205,19 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/users/dtos/get-user-params.dto.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/users/dtos/get-user-params.dto.ts:29</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Optional user identifier for specific user retrieval.</p>
+<p>When provided, this ID is used to fetch a specific user.
+If omitted, the request may return multiple users based on other criteria.
+The value is automatically transformed from string to number.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -217,7 +236,28 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;class-transformer&#x27;;
 import { IsNumber, IsOptional } from &#x27;class-validator&#x27;;
 
+/**
+ * Data Transfer Object for user retrieval parameters.
+ *
+ * This DTO defines the structure and validation rules for user query
+ * parameters, specifically for retrieving users by their unique identifier.
+ * It provides optional filtering capabilities for user lookup operations.
+ *
+ * @class GetUserParamsDto
+ * @description Validates and structures user query parameters
+ */
 export class GetUserParamsDto {
+  /**
+   * Optional user identifier for specific user retrieval.
+   *
+   * When provided, this ID is used to fetch a specific user.
+   * If omitted, the request may return multiple users based on other criteria.
+   * The value is automatically transformed from string to number.
+   *
+   * @type {number}
+   * @memberof GetUserParamsDto
+   * @example 1234
+   */
   @IsOptional()
   @IsNumber()
   @Type(() &#x3D;&gt; Number)

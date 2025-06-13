@@ -123,6 +123,17 @@
             </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Posts controller that handles HTTP requests related to post management.</p>
+<p>This controller provides RESTful endpoints for post operations including
+creating, reading, and updating posts. It supports user-specific post
+retrieval and comprehensive post management with proper validation
+and API documentation.</p>
+
+            </p>
 
 
 
@@ -207,14 +218,25 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="31"
-                                    class="link-to-prism">src/posts/posts.controller.ts:31</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/posts/posts.controller.ts:81</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new post in the system.</p>
+<p>This endpoint accepts post data through the request body and creates
+a new post with proper validation, content processing, and metadata
+management including slug generation and content categorization.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">POST /posts
+Body: {
+  &quot;title&quot;: &quot;Understanding NestJS&quot;,
+  &quot;content&quot;: &quot;NestJS is a powerful framework...&quot;,
+  &quot;postType&quot;: &quot;POST&quot;
+}
+// Returns: { id: 789, title: &quot;Understanding NestJS&quot;, ... }</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -225,6 +247,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -239,6 +262,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Post data for creating new content</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -248,7 +277,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>The created post object with generated metadata</p>
+
                             </div>
                 </td>
             </tr>
@@ -285,14 +315,20 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/posts/posts.controller.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/posts/posts.controller.ts:51</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves all posts for a specific user.</p>
+<p>This endpoint returns a list of all posts associated with the specified
+user ID. It provides user-specific content filtering and supports
+comprehensive post data retrieval.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">GET /posts/123
+// Returns: [{ user: {...}, content: &quot;...&quot;, createdAt: &quot;...&quot;, id: 456 }]</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -303,6 +339,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -317,6 +354,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>The unique identifier of the user</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -326,7 +369,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Array of post objects for the specified user</p>
+
                             </div>
                 </td>
             </tr>
@@ -364,14 +408,24 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/posts/posts.controller.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">src/posts/posts.controller.ts:113</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Updates an existing post with new information.</p>
+<p>This endpoint allows partial updates to post content and metadata
+using the PATCH method. It supports updating various post attributes
+while maintaining data integrity and content validation.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">PATCH /posts
+Body: {
+  &quot;title&quot;: &quot;Updated Post Title&quot;,
+  &quot;content&quot;: &quot;Updated content...&quot;
+}
+// Returns: &quot;This method is not implemented yet&quot;</code></pre></div></div>
 
                             <div class="io-description">
                                 <b>Parameters :</b>
@@ -382,6 +436,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -396,6 +451,12 @@
                                             </td>
 
 
+                                            <td>
+                                                    <ul>
+<li>Partial post data for updates</li>
+</ul>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -405,7 +466,8 @@
 
                         </div>
                             <div class="io-description">
-                                
+                                <p>Update status message</p>
+
                             </div>
                 </td>
             </tr>
@@ -421,14 +483,45 @@ import { ApiOperation, ApiResponse, ApiTags } from &#x27;@nestjs/swagger&#x27;;
 import { CreatePostDto } from &#x27;./dtos/create-post.dto&#x27;;
 import { PatchPostDto } from &#x27;./dtos/patch-post.dto&#x27;;
 
+/**
+ * Posts controller that handles HTTP requests related to post management.
+ *
+ * This controller provides RESTful endpoints for post operations including
+ * creating, reading, and updating posts. It supports user-specific post
+ * retrieval and comprehensive post management with proper validation
+ * and API documentation.
+ *
+ * @controller PostsController
+ * @description Handles post-related HTTP requests and operations
+ */
 @Controller(&#x27;posts&#x27;)
 @ApiTags(&#x27;Posts&#x27;) // Use ApiTags to group the controller in Swagger documentation
 export class PostsController {
+  /**
+   * Creates an instance of PostsController.
+   *
+   * @param {PostsService} postsService - The injected posts service
+   * @memberof PostsController
+   */
   constructor(
     // Inject any required services here, e.g., PostsService
     private readonly postsService: PostsService,
   ) {}
 
+  /**
+   * Retrieves all posts for a specific user.
+   *
+   * This endpoint returns a list of all posts associated with the specified
+   * user ID. It provides user-specific content filtering and supports
+   * comprehensive post data retrieval.
+   *
+   * @param {string} userId - The unique identifier of the user
+   * @returns {object[]} Array of post objects for the specified user
+   * @memberof PostsController
+   * @example
+   * GET /posts/123
+   * // Returns: [{ user: {...}, content: &quot;...&quot;, createdAt: &quot;...&quot;, id: 456 }]
+   */
   @ApiResponse({
     status: 200,
     description: &#x27;List of posts for the user&#x27;,
@@ -440,6 +533,25 @@ export class PostsController {
     return this.postsService.findAll(userId);
   }
 
+  /**
+   * Creates a new post in the system.
+   *
+   * This endpoint accepts post data through the request body and creates
+   * a new post with proper validation, content processing, and metadata
+   * management including slug generation and content categorization.
+   *
+   * @param {CreatePostDto} createPostDto - Post data for creating new content
+   * @returns {object} The created post object with generated metadata
+   * @memberof PostsController
+   * @example
+   * POST /posts
+   * Body: {
+   *   &quot;title&quot;: &quot;Understanding NestJS&quot;,
+   *   &quot;content&quot;: &quot;NestJS is a powerful framework...&quot;,
+   *   &quot;postType&quot;: &quot;POST&quot;
+   * }
+   * // Returns: { id: 789, title: &quot;Understanding NestJS&quot;, ... }
+   */
   @ApiResponse({
     status: 201,
     description: &#x27;Post created successfully&#x27;,
@@ -449,6 +561,24 @@ export class PostsController {
     return this.postsService.createPost(createPostDto);
   }
 
+  /**
+   * Updates an existing post with new information.
+   *
+   * This endpoint allows partial updates to post content and metadata
+   * using the PATCH method. It supports updating various post attributes
+   * while maintaining data integrity and content validation.
+   *
+   * @param {PatchPostDto} patchPostDto - Partial post data for updates
+   * @returns {string} Update status message
+   * @memberof PostsController
+   * @example
+   * PATCH /posts
+   * Body: {
+   *   &quot;title&quot;: &quot;Updated Post Title&quot;,
+   *   &quot;content&quot;: &quot;Updated content...&quot;
+   * }
+   * // Returns: &quot;This method is not implemented yet&quot;
+   */
   @ApiOperation({
     summary: &#x27;Update an existing post&#x27;,
     description:

@@ -196,6 +196,16 @@
 
 
 
+        <p class="comment">
+            <h3>Description</h3>
+        </p>
+        <p class="comment">
+            <p>Authentication module that handles user authentication and authorization.</p>
+<p>This module provides authentication services including user login, logout,
+and authorization checks. It integrates with the Users module to validate
+user credentials and manage authentication state.</p>
+
+        </p>
 
 
         <div class="container-fluid module">
@@ -242,6 +252,16 @@ import { AuthService } from &#x27;./services/auth.service&#x27;;
 import { AuthController } from &#x27;./auth.controller&#x27;;
 import { UsersModule } from &#x27;src/users/users.module&#x27;;
 
+/**
+ * Authentication module that handles user authentication and authorization.
+ *
+ * This module provides authentication services including user login, logout,
+ * and authorization checks. It integrates with the Users module to validate
+ * user credentials and manage authentication state.
+ *
+ * @module AuthModule
+ * @description Manages authentication and authorization functionality
+ */
 @Module({
   providers: [AuthService],
   controllers: [AuthController],

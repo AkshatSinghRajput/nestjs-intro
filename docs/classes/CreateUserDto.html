@@ -123,6 +123,16 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Data Transfer Object for creating a new user.</p>
+<p>This DTO defines the structure and validation rules for user creation
+requests. It includes comprehensive validation for user data including
+name constraints, email format validation, and secure password requirements.</p>
+
+            </p>
 
 
 
@@ -215,10 +225,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/users/dtos/create-user.dto.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/users/dtos/create-user.dto.ts:92</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s email address.</p>
+<p>Must be a valid email format and is required for account creation.
+Used for user authentication and communication.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -254,10 +272,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/users/dtos/create-user.dto.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/users/dtos/create-user.dto.ts:36</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s first name.</p>
+<p>Must be a string between 3 and 96 characters long.
+This field is required for user identification and personalization.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -293,10 +319,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/users/dtos/create-user.dto.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/users/dtos/create-user.dto.ts:52</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s last name.</p>
+<p>Optional string field between 3 and 96 characters long.
+Provides additional user identification information.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -333,10 +367,23 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/users/dtos/create-user.dto.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/users/dtos/create-user.dto.ts:78</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The user&#39;s password.</p>
+<p>Must be a secure password between 8 and 128 characters containing:</p>
+<ul>
+<li>At least one uppercase letter</li>
+<li>At least one lowercase letter</li>
+<li>At least one number</li>
+<li>At least one special character (@$!%*?&amp;)</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -362,19 +409,62 @@
   Matches,
 } from &#x27;class-validator&#x27;;
 
+/**
+ * Data Transfer Object for creating a new user.
+ *
+ * This DTO defines the structure and validation rules for user creation
+ * requests. It includes comprehensive validation for user data including
+ * name constraints, email format validation, and secure password requirements.
+ *
+ * @class CreateUserDto
+ * @description Validates and structures user creation data
+ */
 export class CreateUserDto {
+  /**
+   * The user&#x27;s first name.
+   *
+   * Must be a string between 3 and 96 characters long.
+   * This field is required for user identification and personalization.
+   *
+   * @type {string}
+   * @memberof CreateUserDto
+   * @example &quot;John&quot;
+   */
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(96)
   firstName: string;
 
+  /**
+   * The user&#x27;s last name.
+   *
+   * Optional string field between 3 and 96 characters long.
+   * Provides additional user identification information.
+   *
+   * @type {string}
+   * @memberof CreateUserDto
+   * @example &quot;Doe&quot;
+   */
   @IsString()
   @IsOptional()
   @MinLength(3)
   @MaxLength(96)
   lastName: string;
 
+  /**
+   * The user&#x27;s password.
+   *
+   * Must be a secure password between 8 and 128 characters containing:
+   * - At least one uppercase letter
+   * - At least one lowercase letter
+   * - At least one number
+   * - At least one special character (@$!%*?&amp;)
+   *
+   * @type {string}
+   * @memberof CreateUserDto
+   * @example &quot;SecurePass123!&quot;
+   */
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
@@ -388,6 +478,16 @@ export class CreateUserDto {
   )
   password: string;
 
+  /**
+   * The user&#x27;s email address.
+   *
+   * Must be a valid email format and is required for account creation.
+   * Used for user authentication and communication.
+   *
+   * @type {string}
+   * @memberof CreateUserDto
+   * @example &quot;john.doe@example.com&quot;
+   */
   @IsEmail()
   @IsNotEmpty()
   email: string;

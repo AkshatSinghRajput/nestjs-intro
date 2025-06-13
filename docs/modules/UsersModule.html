@@ -196,6 +196,16 @@
 
 
 
+        <p class="comment">
+            <h3>Description</h3>
+        </p>
+        <p class="comment">
+            <p>Users module that manages user-related functionality.</p>
+<p>This module provides comprehensive user management capabilities including
+user creation, retrieval, updates, and user data management. It integrates
+with the Authentication module to provide secure user operations.</p>
+
+        </p>
 
 
         <div class="container-fluid module">
@@ -242,6 +252,16 @@ import { UsersController } from &#x27;./users.controller&#x27;;
 import { UsersService } from &#x27;./services/users.service&#x27;;
 import { AuthModule } from &#x27;src/auth/auth.module&#x27;;
 
+/**
+ * Users module that manages user-related functionality.
+ *
+ * This module provides comprehensive user management capabilities including
+ * user creation, retrieval, updates, and user data management. It integrates
+ * with the Authentication module to provide secure user operations.
+ *
+ * @module UsersModule
+ * @description Manages user-related operations and data
+ */
 @Module({
   controllers: [UsersController],
   providers: [UsersService],

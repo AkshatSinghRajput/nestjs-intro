@@ -119,6 +119,16 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Main application service that provides core business logic.</p>
+<p>This service contains the primary application logic and serves as the foundation
+for the root-level functionality. It provides basic operations that can be
+extended as the application grows.</p>
+
+            </p>
 
 
 
@@ -176,19 +186,28 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="5"
-                                    class="link-to-prism">src/app.service.ts:5</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="27"
+                                    class="link-to-prism">src/app.service.ts:27</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Returns a simple greeting message.</p>
+<p>This method provides a basic health check functionality and serves
+as a simple way to verify that the service layer is working correctly.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const message = appService.getHello();
+// Returns: &quot;Hello World!&quot;</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </div>
+                            <div class="io-description">
+                                <p>A simple greeting message</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -201,8 +220,30 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
 
+/**
+ * Main application service that provides core business logic.
+ *
+ * This service contains the primary application logic and serves as the foundation
+ * for the root-level functionality. It provides basic operations that can be
+ * extended as the application grows.
+ *
+ * @service AppService
+ * @description Core application service for basic operations
+ */
 @Injectable()
 export class AppService {
+  /**
+   * Returns a simple greeting message.
+   *
+   * This method provides a basic health check functionality and serves
+   * as a simple way to verify that the service layer is working correctly.
+   *
+   * @returns {string} A simple greeting message
+   * @memberof AppService
+   * @example
+   * const message &#x3D; appService.getHello();
+   * // Returns: &quot;Hello World!&quot;
+   */
   getHello(): string {
     return &#x27;Hello World!&#x27;;
   }

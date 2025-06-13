@@ -123,6 +123,17 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Data Transfer Object for creating a new post.</p>
+<p>This DTO defines the comprehensive structure and validation rules for post creation
+requests. It includes validation for post content, metadata, categorization,
+and publishing information with support for rich content features like tags,
+featured images, and custom meta options.</p>
+
+            </p>
 
 
 
@@ -264,10 +275,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/posts/dtos/create-post.dto.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">src/posts/dtos/create-post.dto.ts:129</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The main content body of the post.</p>
+<p>Optional field containing the detailed content of the post.
+Supports rich text and markdown formatting for comprehensive content creation.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -303,10 +322,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/posts/dtos/create-post.dto.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/posts/dtos/create-post.dto.ts:166</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL of the featured image for the post.</p>
+<p>Optional field for specifying a featured image that represents
+the post content. Must be a valid URL format.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -344,10 +371,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/posts/dtos/create-post.dto.ts:117</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">src/posts/dtos/create-post.dto.ts:229</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom meta options for extended post configuration.</p>
+<p>Optional array of key-value pairs for storing additional
+metadata and configuration options specific to the post.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -382,10 +417,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/posts/dtos/create-post.dto.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/posts/dtos/create-post.dto.ts:68</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The type/category of the post.</p>
+<p>Defines the content type using predefined post types enum.
+Helps categorize and organize different types of content.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -421,10 +464,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/posts/dtos/create-post.dto.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">src/posts/dtos/create-post.dto.ts:184</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The scheduled or actual publication date of the post.</p>
+<p>ISO 8601 formatted date string indicating when the post
+should be or was published. Used for scheduling and organization.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -460,10 +511,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/posts/dtos/create-post.dto.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">src/posts/dtos/create-post.dto.ts:148</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>JSON schema for structured post data.</p>
+<p>Optional field for storing structured metadata or configuration
+in JSON format for advanced post customization.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -499,10 +558,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/posts/dtos/create-post.dto.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/posts/dtos/create-post.dto.ts:91</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL-friendly slug for the post.</p>
+<p>Must be lowercase and contain only letters, numbers, and hyphens.
+Used for creating SEO-friendly URLs and unique post identification.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -537,10 +604,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/posts/dtos/create-post.dto.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/posts/dtos/create-post.dto.ts:110</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The publication status of the post.</p>
+<p>Determines whether the post is published, draft, or in another state.
+Controls post visibility and accessibility to end users.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -578,10 +653,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/posts/dtos/create-post.dto.ts:103</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="205" class="link-to-prism">src/posts/dtos/create-post.dto.ts:205</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Array of tags associated with the post.</p>
+<p>Optional array of string tags for categorization and searchability.
+Each tag must be at least 3 characters long and helps with content discovery.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -617,10 +700,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/posts/dtos/create-post.dto.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/posts/dtos/create-post.dto.ts:49</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The title of the post.</p>
+<p>Must be at least 4 characters long and serves as the primary
+identifier for the post content. Used for display and SEO purposes.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html"></code></pre></div></div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -655,7 +746,28 @@ import { CreatePostMetaOptionDto } from &#x27;./create-post-meta-option.dto&#x27
 import { Type } from &#x27;class-transformer&#x27;;
 import { ApiProperty, ApiPropertyOptional } from &#x27;@nestjs/swagger&#x27;;
 
+/**
+ * Data Transfer Object for creating a new post.
+ *
+ * This DTO defines the comprehensive structure and validation rules for post creation
+ * requests. It includes validation for post content, metadata, categorization,
+ * and publishing information with support for rich content features like tags,
+ * featured images, and custom meta options.
+ *
+ * @class CreatePostDto
+ * @description Validates and structures post creation data with comprehensive content management
+ */
 export class CreatePostDto {
+  /**
+   * The title of the post.
+   *
+   * Must be at least 4 characters long and serves as the primary
+   * identifier for the post content. Used for display and SEO purposes.
+   *
+   * @type {string}
+   * @memberof CreatePostDto
+   * @example &quot;Understanding NestJS&quot;
+   */
   @ApiProperty({
     description: &#x27;Title of the post&#x27;,
     example: &#x27;Understanding NestJS&#x27;,
@@ -665,6 +777,16 @@ export class CreatePostDto {
   @MinLength(4)
   title: string;
 
+  /**
+   * The type/category of the post.
+   *
+   * Defines the content type using predefined post types enum.
+   * Helps categorize and organize different types of content.
+   *
+   * @type {postTypes}
+   * @memberof CreatePostDto
+   * @example postTypes.POST
+   */
   @ApiProperty({
     description: &#x27;Type of the post&#x27;,
     enum: postTypes,
@@ -673,6 +795,17 @@ export class CreatePostDto {
   @IsEnum(postTypes)
   @IsNotEmpty()
   postType: postTypes;
+
+  /**
+   * URL-friendly slug for the post.
+   *
+   * Must be lowercase and contain only letters, numbers, and hyphens.
+   * Used for creating SEO-friendly URLs and unique post identification.
+   *
+   * @type {string}
+   * @memberof CreatePostDto
+   * @example &quot;understanding-nestjs&quot;
+   */
 
   @ApiProperty({
     description: &#x27;Unique slug for the post&#x27;,
@@ -686,6 +819,16 @@ export class CreatePostDto {
   })
   slug: string;
 
+  /**
+   * The publication status of the post.
+   *
+   * Determines whether the post is published, draft, or in another state.
+   * Controls post visibility and accessibility to end users.
+   *
+   * @type {postStatus}
+   * @memberof CreatePostDto
+   * @example postStatus.DRAFT
+   */
   @ApiProperty({
     description: &#x27;Status of the post&#x27;,
     enum: postStatus,
@@ -695,6 +838,16 @@ export class CreatePostDto {
   @IsNotEmpty()
   status: postStatus;
 
+  /**
+   * The main content body of the post.
+   *
+   * Optional field containing the detailed content of the post.
+   * Supports rich text and markdown formatting for comprehensive content creation.
+   *
+   * @type {string}
+   * @memberof CreatePostDto
+   * @example &quot;This is a detailed explanation of NestJS.&quot;
+   */
   @ApiPropertyOptional({
     description: &#x27;Content of the post&#x27;,
     example: &#x27;This is a detailed explanation of NestJS.&#x27;,
@@ -704,6 +857,16 @@ export class CreatePostDto {
   @MinLength(3)
   content?: string;
 
+  /**
+   * JSON schema for structured post data.
+   *
+   * Optional field for storing structured metadata or configuration
+   * in JSON format for advanced post customization.
+   *
+   * @type {string}
+   * @memberof CreatePostDto
+   * @example &#x27;{&quot;key&quot;: &quot;value&quot;}&#x27;
+   */
   @ApiPropertyOptional({
     description: &#x27;Schema for the post, if applicable&#x27;,
     example: &#x27;{&quot;key&quot;: &quot;value&quot;}&#x27;,
@@ -713,6 +876,16 @@ export class CreatePostDto {
   @IsOptional()
   schema?: string;
 
+  /**
+   * URL of the featured image for the post.
+   *
+   * Optional field for specifying a featured image that represents
+   * the post content. Must be a valid URL format.
+   *
+   * @type {string}
+   * @memberof CreatePostDto
+   * @example &quot;https://example.com/image.jpg&quot;
+   */
   @ApiPropertyOptional({
     description: &#x27;Featured image URL for the post&#x27;,
     example: &#x27;https://example.com/image.jpg&#x27;,
@@ -721,6 +894,16 @@ export class CreatePostDto {
   @IsOptional()
   featuredImageUrl?: string;
 
+  /**
+   * The scheduled or actual publication date of the post.
+   *
+   * ISO 8601 formatted date string indicating when the post
+   * should be or was published. Used for scheduling and organization.
+   *
+   * @type {Date}
+   * @memberof CreatePostDto
+   * @example &quot;2023-10-01T12:00:00Z&quot;
+   */
   @ApiPropertyOptional({
     description: &#x27;Published date of the post&#x27;,
     example: &#x27;2023-10-01T12:00:00Z&#x27;,
@@ -729,6 +912,16 @@ export class CreatePostDto {
   @IsOptional()
   publishedOn?: Date;
 
+  /**
+   * Array of tags associated with the post.
+   *
+   * Optional array of string tags for categorization and searchability.
+   * Each tag must be at least 3 characters long and helps with content discovery.
+   *
+   * @type {string[]}
+   * @memberof CreatePostDto
+   * @example [&quot;nestjs&quot;, &quot;typescript&quot;, &quot;backend&quot;]
+   */
   @ApiPropertyOptional({
     description: &#x27;Tags associated with the post&#x27;,
     type: [String],
@@ -740,6 +933,16 @@ export class CreatePostDto {
   @MinLength(3, { each: true })
   tags?: string[];
 
+  /**
+   * Custom meta options for extended post configuration.
+   *
+   * Optional array of key-value pairs for storing additional
+   * metadata and configuration options specific to the post.
+   *
+   * @type {CreatePostMetaOptionDto[]}
+   * @memberof CreatePostDto
+   * @example [{ key: &quot;author&quot;, value: &quot;John Doe&quot; }, { key: &quot;category&quot;, value: &quot;Programming&quot; }]
+   */
   @ApiPropertyOptional({
     description: &#x27;Meta options for the post&#x27;,
     type: [CreatePostMetaOptionDto],

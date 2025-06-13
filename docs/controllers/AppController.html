@@ -117,6 +117,16 @@
 
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Main application controller that handles root-level HTTP requests.</p>
+<p>This controller provides the basic endpoints for the application root path.
+It serves as the entry point for testing application connectivity and
+basic functionality verification.</p>
+
+            </p>
 
 
 
@@ -184,19 +194,28 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="9"
-                                    class="link-to-prism">src/app.controller.ts:9</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">src/app.controller.ts:37</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Handles GET requests to the root path (&#39;/&#39;).</p>
+<p>Returns a simple greeting message to verify that the application
+is running and responding to HTTP requests correctly.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">GET /
+// Returns: &quot;Hello World!&quot;</code></pre></div></div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                         </div>
+                            <div class="io-description">
+                                <p>A greeting message from the application</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -208,10 +227,38 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get } from &#x27;@nestjs/common&#x27;;
 import { AppService } from &#x27;./app.service&#x27;;
 
+/**
+ * Main application controller that handles root-level HTTP requests.
+ *
+ * This controller provides the basic endpoints for the application root path.
+ * It serves as the entry point for testing application connectivity and
+ * basic functionality verification.
+ *
+ * @controller AppController
+ * @description Handles HTTP requests for the application root endpoints
+ */
 @Controller()
 export class AppController {
+  /**
+   * Creates an instance of AppController.
+   *
+   * @param {AppService} appService - The injected application service
+   * @memberof AppController
+   */
   constructor(private readonly appService: AppService) {}
 
+  /**
+   * Handles GET requests to the root path (&#x27;/&#x27;).
+   *
+   * Returns a simple greeting message to verify that the application
+   * is running and responding to HTTP requests correctly.
+   *
+   * @returns {string} A greeting message from the application
+   * @memberof AppController
+   * @example
+   * GET /
+   * // Returns: &quot;Hello World!&quot;
+   */
   @Get()
   getHello(): string {
     return this.appService.getHello();
