@@ -1,6 +1,10 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-user-params.dto';
 import { AuthService } from 'src/auth/services/auth.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../user.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -21,6 +25,9 @@ export class UsersService {
    * @memberof UsersService
    */
   constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+
     @Inject(forwardRef(() => AuthService)) // Use forwardRef to avoid circular dependency issues
     private readonly authService: AuthService, // Assuming AuthService is imported from the correct path
   ) {}
@@ -47,25 +54,7 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    console.log('GetUserParamsDto:', getUserParamsDto);
-    console.log('Limit:', limit);
-    console.log('Page:', page);
-
-    if (this.authService.isAuth()) {
-      return [
-        {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'johndoe@fo.com',
-        },
-        {
-          firstName: 'Jane',
-          lastName: 'Doe',
-          email: 'janeDoe@gp.com',
-        },
-      ];
-    }
-    throw new Error('Unauthorized access');
+    return this.usersRepository.find();
   }
 
   /**
@@ -83,13 +72,45 @@ export class UsersService {
    * // Returns: { id: 1231, firstName: "John", lastName: "Doe", email: "john@hao.com" }
    */
   public getUserById(getUserParamsDto: GetUserParamsDto) {
-    const { id } = getUserParamsDto;
-    console.log('Get user by ID:', id);
-    return {
-      id: 1231,
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@hao.com',
-    };
+    let user = this.usersRepository.findOneBy({
+      id: getUserParamsDto.id,
+    });
+    return user;
+  }
+
+  /**
+   * Creates a new user in the system.
+   * This method checks if a user with the provided email already exists,
+   * and if not, creates a new user with the provided details.
+   * @param {CreateUserDto} createUserDto - Data transfer object containing user details
+   * @return {Promise<User>} The newly created user object
+   * @throws {Error} If a user with the provided email already exists
+   * @memberof UsersService
+   * @example
+   * const newUser = await usersService.createUser({
+   *  firstName: 'Alice',
+   * lastName: 'Smith',
+   * email: 'aloce@sfafa.com',
+   * password: 'password@123',
+   * });
+   * // Returns: { id: 1, firstName: "Alice", lastName: "Smith", email: "aloce@sfafa.com", ... }
+   * */
+
+  public async createUser(createUserDto: CreateUserDto) {
+    // Check if the user already exists
+    let existingUser = await this.usersRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new Error('User already exists with this email');
+    }
+
+    // Create a new user instance
+    let newUser = this.usersRepository.create(createUserDto);
+
+    newUser = await this.usersRepository.save(newUser);
+
+    return newUser;
   }
 }

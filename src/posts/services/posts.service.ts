@@ -1,6 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/services/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Posts } from '../posts.entity';
+import { Repository } from 'typeorm';
+import { MetaOption } from 'src/meta-options/meta-options.entity';
+import { TagsService } from 'src/tags/services/tags.service';
+import { PatchPostDto } from '../dtos/patch-post.dto';
 
 /**
  * Posts service that provides post-related business logic and data operations.
@@ -22,7 +28,17 @@ export class PostsService {
    * @memberof PostsService
    */
   constructor(
+    // Post repository
+
     private readonly usersService: UsersService, // Inject UsersService if needed
+
+    private readonly tagService: TagsService,
+
+    @InjectRepository(Posts)
+    private postsRepository: Repository<Posts>, // Inject the Posts repository for database operations
+
+    @InjectRepository(MetaOption)
+    private metaOptionRepository: Repository<MetaOption>, // Inject the MetaOption repository for metadata operations
   ) {}
 
   /**
@@ -46,22 +62,9 @@ export class PostsService {
    * //   }
    * // ]
    */
-  public findAll(userId: string) {
-    const user = this.usersService.getUserById({ id: Number(userId) });
-    return [
-      {
-        user: user,
-        content: 'This is a post content for user ' + userId,
-        createdAt: new Date().toISOString(),
-        id: Math.floor(Math.random() * 1000), // Simulating a post ID
-      },
-      {
-        user: user,
-        content: 'This is another post content for user ' + userId,
-        createdAt: new Date().toISOString(),
-        id: Math.floor(Math.random() * 1000) + 1, // Simulating another post ID
-      },
-    ];
+  public async findAll(userId: string) {
+    const posts = await this.postsRepository.find();
+    return posts;
   }
 
   /**
@@ -82,12 +85,74 @@ export class PostsService {
    * });
    * // Returns: { id: 789, title: "Understanding NestJS", ... }
    */
-  public createPost(createPostDto: CreatePostDto) {
-    // Here you would typically save the post to a database
-    // For now, we will just return the DTO as a simulated response
-    return {
-      id: Math.floor(Math.random() * 1000), // Simulating a post ID
+  // public async createPost(createPostDto: CreatePostDto) {
+  //   // Check if the post already exists
+  //   const existingPost = await this.postsRepository.findOne({
+  //     where: { slug: createPostDto.slug },
+  //   });
+
+  //   if (existingPost) {
+  //     throw new Error('Post already exists with this slug');
+  //   }
+
+  //   let newPost = this.postsRepository.create(createPostDto);
+  //   newPost = await this.postsRepository.save(newPost);
+
+  //   return newPost;
+  // }
+
+  public async createPost(@Body() createPostDto: CreatePostDto) {
+    // Find the author by ID
+    let author = await this.usersService.getUserById({
+      id: createPostDto.authorId,
+    });
+    if (!author) {
+      throw new Error('Author not found');
+    }
+
+    let tags = await this.tagService.findMultipleTags(createPostDto.tags || []);
+
+    let post = this.postsRepository.create({
       ...createPostDto,
+      author: author,
+      tags: tags,
+    });
+
+    return await this.postsRepository.save(post);
+  }
+
+  public async delete(id: number) {
+    await this.postsRepository.delete(id);
+    return {
+      deleted: true,
+      id,
     };
+  }
+
+  public async patchPost(patchPostDto: PatchPostDto) {
+    // Find the tags
+    let tags = await this.tagService.findMultipleTags(patchPostDto.tags || []);
+
+    // Find the post by ID
+    let post = await this.postsRepository.findOneBy({
+      id: patchPostDto.id,
+    });
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    // Update the post with the provided data
+    post.title = patchPostDto.title ?? post?.title;
+    post.content = patchPostDto.content ?? post?.content;
+    post.postType = patchPostDto.postType ?? post?.postType;
+    post.slug = patchPostDto.slug ?? post?.slug;
+    post.featuredImageUrl =
+      patchPostDto.featuredImageUrl ?? post?.featuredImageUrl;
+    post.publishOn = patchPostDto.publishOn ?? post?.publishOn;
+
+    // Assign the new tags
+    post.tags = tags; // Update the tags
+    // Save the post and return
+    post = await this.postsRepository.save(post);
+    return post;
   }
 }

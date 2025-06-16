@@ -251,6 +251,8 @@ with the Authentication module to provide secure user operations.</p>
 import { UsersController } from &#x27;./users.controller&#x27;;
 import { UsersService } from &#x27;./services/users.service&#x27;;
 import { AuthModule } from &#x27;src/auth/auth.module&#x27;;
+import { TypeOrmModule } from &#x27;@nestjs/typeorm&#x27;;
+import { User } from &#x27;./user.entity&#x27;;
 
 /**
  * Users module that manages user-related functionality.
@@ -266,7 +268,10 @@ import { AuthModule } from &#x27;src/auth/auth.module&#x27;;
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService], // Export UsersService if needed in other modules
-  imports: [forwardRef(() &#x3D;&gt; AuthModule)], // Import other modules if needed
+  imports: [
+    forwardRef(() &#x3D;&gt; AuthModule),
+    TypeOrmModule.forFeature([User]), // Import User entity for TypeORM
+  ],
 })
 export class UsersModule {}
 </code></pre>

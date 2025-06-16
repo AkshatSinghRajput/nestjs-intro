@@ -1,0 +1,10 @@
+POST http://localhost:3000/meta-options
+Content-Type: application/json
+
+{
+  "metaValue": {
+    "name": "exampleMetaOption",
+    "description": "This is an example meta option",
+    "type": "string",
+    "defaultValue": "default"
+  }}

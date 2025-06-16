@@ -148,6 +148,7 @@ including content processing and user association.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
                                 <a href="#createPost" >createPost</a>
                             </li>
                             <li>
@@ -172,12 +173,12 @@ including content processing and user association.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>)</code>
+<code>constructor(usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, postsRepository: <a href="../entitys/Posts.html" target="_self">Repository&lt;Posts&gt;</a>, metaOptionRepository: <a href="../entitys/MetaOption.html" target="_self">Repository&lt;MetaOption&gt;</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/posts/services/posts.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/posts/services/posts.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -215,6 +216,34 @@ including content processing and user association.</p>
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>postsRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Posts.html" target="_self" >Repository&lt;Posts&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>metaOptionRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/MetaOption.html" target="_self" >Repository&lt;MetaOption&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -236,6 +265,7 @@ including content processing and user association.</p>
                     <a name="createPost"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
                         <span ><b>createPost</b></span>
                         <a href="#createPost"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -251,8 +281,8 @@ including content processing and user association.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="85"
-                                    class="link-to-prism">src/posts/services/posts.service.ts:85</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">src/posts/services/posts.service.ts:113</a></div>
                         </td>
                     </tr>
 
@@ -305,7 +335,7 @@ unique identification and creation timestamp.</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -338,8 +368,8 @@ unique identification and creation timestamp.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="49"
-                                    class="link-to-prism">src/posts/services/posts.service.ts:49</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/posts/services/posts.service.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -412,9 +442,13 @@ post data with user context and temporal information.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Injectable } from &#x27;@nestjs/common&#x27;;
 import { UsersService } from &#x27;src/users/services/users.service&#x27;;
 import { CreatePostDto } from &#x27;../dtos/create-post.dto&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { Posts } from &#x27;../posts.entity&#x27;;
+import { Repository } from &#x27;typeorm&#x27;;
+import { MetaOption } from &#x27;src/meta-options/meta-options.entity&#x27;;
 
 /**
  * Posts service that provides post-related business logic and data operations.
@@ -436,7 +470,15 @@ export class PostsService {
    * @memberof PostsService
    */
   constructor(
+    // Post repository
+
     private readonly usersService: UsersService, // Inject UsersService if needed
+
+    @InjectRepository(Posts)
+    private postsRepository: Repository&lt;Posts&gt;, // Inject the Posts repository for database operations
+
+    @InjectRepository(MetaOption)
+    private metaOptionRepository: Repository&lt;MetaOption&gt;, // Inject the MetaOption repository for metadata operations
   ) {}
 
   /**
@@ -496,13 +538,34 @@ export class PostsService {
    * });
    * // Returns: { id: 789, title: &quot;Understanding NestJS&quot;, ... }
    */
-  public createPost(createPostDto: CreatePostDto) {
-    // Here you would typically save the post to a database
-    // For now, we will just return the DTO as a simulated response
-    return {
-      id: Math.floor(Math.random() * 1000), // Simulating a post ID
-      ...createPostDto,
-    };
+  // public async createPost(createPostDto: CreatePostDto) {
+  //   // Check if the post already exists
+  //   const existingPost &#x3D; await this.postsRepository.findOne({
+  //     where: { slug: createPostDto.slug },
+  //   });
+
+  //   if (existingPost) {
+  //     throw new Error(&#x27;Post already exists with this slug&#x27;);
+  //   }
+
+  //   let newPost &#x3D; this.postsRepository.create(createPostDto);
+  //   newPost &#x3D; await this.postsRepository.save(newPost);
+
+  //   return newPost;
+  // }
+
+  public async createPost(@Body() createPostDto: CreatePostDto) {
+    let metaOptions &#x3D; createPostDto.metaOptions
+      ? this.metaOptionRepository.create(createPostDto.metaOptions)
+      : null;
+
+    let post &#x3D; this.postsRepository.create(createPostDto);
+
+    if (metaOptions) {
+      post.metaOptions &#x3D; await this.metaOptionRepository.save(metaOptions);
+    }
+
+    return await this.postsRepository.save(post);
   }
 }
 </code></pre>

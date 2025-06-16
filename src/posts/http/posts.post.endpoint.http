@@ -2,9 +2,17 @@ POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-  "title": "New Post",
-  "content": "This is the content of the new post.",
+  "title": "What's new with NestJS",
   "postType": "post",
-  "slug": "new-post",
-  "status": "draft"
+  "slug": "new-with-nestjs-212",
+  "status": "draft",
+  "content": "test content",
+  "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Person\"\r\n }",
+  "featuredImageUrl": "http://localhost.com/images/image1.jpg",
+  "publishOn": "2024-03-16T07:46:32+0000",
+  "tags":[1],
+  "metaOptions" : {
+    "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": true }"
+    },
+    "authorId": 1
 }

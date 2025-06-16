@@ -1,0 +1,8 @@
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+  "name": "New Tag 2",
+  "description": "This is a new tag created via HTTP POST request.",
+  "slug": "new-tag-2"
+}

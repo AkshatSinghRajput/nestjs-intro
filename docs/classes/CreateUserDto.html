@@ -152,6 +152,7 @@ name constraints, email format validation, and secure password requirements.</p>
                             <li>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
+                                    <span class="modifier"></span>
                                 <a href="#email" >email</a>
                             </li>
                             <li>
@@ -203,6 +204,7 @@ name constraints, email format validation, and secure password requirements.</p>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
+                            <span class="modifier"></span>
                         <span ><b>email</b></span>
                         <a href="#email"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -219,13 +221,13 @@ name constraints, email format validation, and secure password requirements.</p>
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @IsEmail()<br />@IsNotEmpty()<br />
+                            @IsEmail()<br />@IsNotEmpty()<br />@MaxLength(96)<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/users/dtos/create-user.dto.ts:92</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/users/dtos/create-user.dto.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -361,7 +363,7 @@ Provides additional user identification information.</p>
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @IsString()<br />@IsNotEmpty()<br />@MinLength(8)<br />@MaxLength(128)<br />@Matches(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)(?&#x3D;.*[@$!%*?&amp;])[a-zA-Z\d@$!%*?&amp;]{8,}$/, {message: &#x27;Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.&#x27;})<br />
+                            @IsString()<br />@IsNotEmpty()<br />@MinLength(8)<br />@MaxLength(96)<br />@Matches(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)(?&#x3D;.*[@$!%*?&amp;])[a-zA-Z\d@$!%*?&amp;]{8,}$/, {message: &#x27;Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol.&#x27;})<br />
                         </code>
                     </td>
                 </tr>
@@ -468,7 +470,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
-  @MaxLength(128)
+  @MaxLength(96)
   @Matches(
     /^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d)(?&#x3D;.*[@$!%*?&amp;])[a-zA-Z\d@$!%*?&amp;]{8,}$/,
     {
@@ -490,6 +492,7 @@ export class CreateUserDto {
    */
   @IsEmail()
   @IsNotEmpty()
+  @MaxLength(96)
   email: string;
 }
 </code></pre>

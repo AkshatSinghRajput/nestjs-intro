@@ -147,6 +147,11 @@ the core business logic for user operations throughout the application.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#createUser" >createUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getUserById" >getUserById</a>
                             </li>
                             <li>
@@ -171,12 +176,12 @@ the core business logic for user operations throughout the application.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
+<code>constructor(usersRepository: <a href="../entitys/User.html" target="_self">Repository&lt;User&gt;</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/users/services/users.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/users/services/users.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -196,6 +201,20 @@ the core business logic for user operations throughout the application.</p>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                                <tr>
+                                                        <td>usersRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/User.html" target="_self" >Repository&lt;User&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                                 <tr>
                                                         <td>authService</td>
                                                   
@@ -232,6 +251,94 @@ the core business logic for user operations throughout the application.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="createUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>createUser</b></span>
+                        <a href="#createUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createUser(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">src/users/services/users.service.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new user in the system.
+This method checks if a user with the provided email already exists,
+and if not, creates a new user with the provided details.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">const newUser = await usersService.createUser({
+ firstName: &#39;Alice&#39;,
+lastName: &#39;Smith&#39;,
+email: &#39;aloce&#64;sfafa.com&#39;,
+password: &#39;password&#64;123&#39;,
+});
+// Returns: { id: 1, firstName: &quot;Alice&quot;, lastName: &quot;Smith&quot;, email: &quot;aloce&#64;sfafa.com&quot;, ... }</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>createUserDto</td>
+                                            <td>
+                                                            <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Data transfer object containing user details</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The newly created user object</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getUserById"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -250,8 +357,8 @@ the core business logic for user operations throughout the application.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="85"
-                                    class="link-to-prism">src/users/services/users.service.ts:85</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/users/services/users.service.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -333,8 +440,8 @@ contact details.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/users/services/users.service.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/users/services/users.service.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -439,6 +546,10 @@ user authorization before returning sensitive user data.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Inject, forwardRef } from &#x27;@nestjs/common&#x27;;
 import { GetUserParamsDto } from &#x27;../dtos/get-user-params.dto&#x27;;
 import { AuthService } from &#x27;src/auth/services/auth.service&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
+import { User } from &#x27;../user.entity&#x27;;
+import { Repository } from &#x27;typeorm&#x27;;
+import { CreateUserDto } from &#x27;../dtos/create-user.dto&#x27;;
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -459,6 +570,9 @@ export class UsersService {
    * @memberof UsersService
    */
   constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository&lt;User&gt;,
+
     @Inject(forwardRef(() &#x3D;&gt; AuthService)) // Use forwardRef to avoid circular dependency issues
     private readonly authService: AuthService, // Assuming AuthService is imported from the correct path
   ) {}
@@ -529,6 +643,42 @@ export class UsersService {
       lastName: &#x27;Doe&#x27;,
       email: &#x27;john@hao.com&#x27;,
     };
+  }
+
+  /**
+   * Creates a new user in the system.
+   * This method checks if a user with the provided email already exists,
+   * and if not, creates a new user with the provided details.
+   * @param {CreateUserDto} createUserDto - Data transfer object containing user details
+   * @return {Promise&lt;User&gt;} The newly created user object
+   * @throws {Error} If a user with the provided email already exists
+   * @memberof UsersService
+   * @example
+   * const newUser &#x3D; await usersService.createUser({
+   *  firstName: &#x27;Alice&#x27;,
+   * lastName: &#x27;Smith&#x27;,
+   * email: &#x27;aloce@sfafa.com&#x27;,
+   * password: &#x27;password@123&#x27;,
+   * });
+   * // Returns: { id: 1, firstName: &quot;Alice&quot;, lastName: &quot;Smith&quot;, email: &quot;aloce@sfafa.com&quot;, ... }
+   * */
+
+  public async createUser(createUserDto: CreateUserDto) {
+    // Check if the user already exists
+    let existingUser &#x3D; await this.usersRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new Error(&#x27;User already exists with this email&#x27;);
+    }
+
+    // Create a new user instance
+    let newUser &#x3D; this.usersRepository.create(createUserDto);
+
+    newUser &#x3D; await this.usersRepository.save(newUser);
+
+    return newUser;
   }
 }
 </code></pre>

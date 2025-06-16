@@ -272,7 +272,7 @@ Body: {
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
                             <div class="io-description">
@@ -447,8 +447,8 @@ path parameters for specific user retrieval.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="143"
-                                    class="link-to-prism">src/users/users.controller.ts:143</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">src/users/users.controller.ts:142</a></div>
                         </td>
                     </tr>
 
@@ -635,8 +635,7 @@ export class UsersController {
    */
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
-    console.log(&#x27;Body:&#x27;, createUserDto);
-    return &#x27;This action creates a new user&#x27;;
+    return this.usersService.createUser(createUserDto);
   }
 
   /**
