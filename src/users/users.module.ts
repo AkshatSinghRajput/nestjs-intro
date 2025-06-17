@@ -4,6 +4,8 @@ import { UsersService } from './services/users.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
+import { ConfigModule } from '@nestjs/config';
+import profileConfig from './config/profile.config';
 
 /**
  * Users module that manages user-related functionality.
@@ -22,6 +24,7 @@ import { User } from './user.entity';
   imports: [
     forwardRef(() => AuthModule),
     TypeOrmModule.forFeature([User]), // Import User entity for TypeORM
+    ConfigModule.forFeature(profileConfig),
   ],
 })
 export class UsersModule {}

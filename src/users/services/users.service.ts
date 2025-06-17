@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { ConfigType } from '@nestjs/config';
+import profileConfig from '../config/profile.config';
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -25,6 +27,9 @@ export class UsersService {
    * @memberof UsersService
    */
   constructor(
+    @Inject(profileConfig.KEY) // Inject the configuration for profile
+    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
+
     @InjectRepository(User)
     private usersRepository: Repository<User>,
 
