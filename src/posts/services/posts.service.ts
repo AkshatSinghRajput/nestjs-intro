@@ -1,4 +1,10 @@
-import { Body, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Injectable,
+  RequestTimeoutException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/services/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -63,7 +69,26 @@ export class PostsService {
    * // ]
    */
   public async findAll(userId: string) {
-    const posts = await this.postsRepository.find();
+    let user = await this.usersService.getUserById({
+      id: parseInt(userId),
+    });
+    if (!user) {
+      throw new UnauthorizedException('User not found or unauthorized');
+    }
+
+    let posts: Posts[] = [];
+    try {
+      posts = await this.postsRepository.find({
+        where: { author: { id: user.id } },
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
     return posts;
   }
 
@@ -107,7 +132,7 @@ export class PostsService {
       id: createPostDto.authorId,
     });
     if (!author) {
-      throw new Error('Author not found');
+      throw new UnauthorizedException('Author not found or unauthorized');
     }
 
     let tags = await this.tagService.findMultipleTags(createPostDto.tags || []);
@@ -118,27 +143,59 @@ export class PostsService {
       tags: tags,
     });
 
-    return await this.postsRepository.save(post);
+    try {
+      post = await this.postsRepository.save(post);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
+
+    return post;
   }
 
   public async delete(id: number) {
-    await this.postsRepository.delete(id);
-    return {
-      deleted: true,
-      id,
-    };
+    try {
+      await this.postsRepository.delete(id);
+      return {
+        deleted: true,
+        id,
+      };
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
   }
 
   public async patchPost(patchPostDto: PatchPostDto) {
     // Find the tags
     let tags = await this.tagService.findMultipleTags(patchPostDto.tags || []);
 
+    let post: Posts | null = null;
     // Find the post by ID
-    let post = await this.postsRepository.findOneBy({
-      id: patchPostDto.id,
-    });
+    try {
+      post = await this.postsRepository.findOne({
+        where: { id: patchPostDto.id },
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
     if (!post) {
-      throw new Error('Post not found');
+      throw new BadRequestException('Post not found or does not exist', {
+        description: 'The post you are trying to update does not exist.',
+      });
     }
     // Update the post with the provided data
     post.title = patchPostDto.title ?? post?.title;
@@ -152,7 +209,18 @@ export class PostsService {
     // Assign the new tags
     post.tags = tags; // Update the tags
     // Save the post and return
-    post = await this.postsRepository.save(post);
+
+    try {
+      post = await this.postsRepository.save(post);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
+
     return post;
   }
 }

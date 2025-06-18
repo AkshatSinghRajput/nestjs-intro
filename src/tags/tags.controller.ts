@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   ParseIntPipe,
   Post,
   Query,
@@ -14,7 +15,6 @@ export class TagsController {
   constructor(
     private readonly tagsService: TagsService, // Inject the TagsService for tag operations
   ) {}
-
   @Post()
   public createTag(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.createTag(createTagDto); // Call the service to create a new tag

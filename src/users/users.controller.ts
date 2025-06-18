@@ -8,12 +8,14 @@ import {
   ParseIntPipe,
   DefaultValuePipe,
   Patch,
+  ParseArrayPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUserParamsDto } from './dtos/get-user-params.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './services/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateManyUserDto } from './dtos/create-many-user.dto';
 
 /**
  * Users controller that handles HTTP requests related to user management.
@@ -119,6 +121,14 @@ export class UsersController {
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
+  }
+
+  @Post('create-many')
+  public createManyUsers(
+    @Body()
+    createManyUsersDto: CreateManyUserDto,
+  ) {
+    return this.usersService.createMany(createManyUsersDto.users);
   }
 
   /**

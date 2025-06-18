@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, RequestTimeoutException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MetaOption } from '../meta-options.entity';
 import { Repository } from 'typeorm';
@@ -13,7 +13,16 @@ export class MetaOptionsService {
 
   public async createMetaOption(createMetaOptionDto: CreatePostMetaOptionDto) {
     let newMetaOptions = this.metaOptionsRepository.create(createMetaOptionDto);
-    newMetaOptions = await this.metaOptionsRepository.save(newMetaOptions);
+    try {
+      newMetaOptions = await this.metaOptionsRepository.save(newMetaOptions);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to create meta option, please try again later.',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
     return newMetaOptions;
   }
 }

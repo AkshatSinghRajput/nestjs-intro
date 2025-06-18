@@ -1,12 +1,19 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  forwardRef,
+  RequestTimeoutException,
+  BadRequestException,
+} from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-user-params.dto';
 import { AuthService } from 'src/auth/services/auth.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
+import { UserCreateManyProvider } from './user-create-many.provider';
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -33,8 +40,7 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
 
-    @Inject(forwardRef(() => AuthService)) // Use forwardRef to avoid circular dependency issues
-    private readonly authService: AuthService, // Assuming AuthService is imported from the correct path
+    private readonly userCreateManyProvider: UserCreateManyProvider,
   ) {}
 
   /**
@@ -54,12 +60,22 @@ export class UsersService {
    * const users = usersService.getUsers({}, 10, 1);
    * // Returns: [{ firstName: "John", lastName: "Doe", email: "johndoe@fo.com" }, ...]
    */
-  public getUsers(
+  public async getUsers(
     getUserParamsDto: GetUserParamsDto,
     limit: number,
     page: number,
   ) {
-    return this.usersRepository.find();
+    let users: User[] = [];
+    try {
+      await this.usersRepository.find();
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
   }
 
   /**
@@ -76,10 +92,25 @@ export class UsersService {
    * const user = usersService.getUserById({ id: 1231 });
    * // Returns: { id: 1231, firstName: "John", lastName: "Doe", email: "john@hao.com" }
    */
-  public getUserById(getUserParamsDto: GetUserParamsDto) {
-    let user = this.usersRepository.findOneBy({
-      id: getUserParamsDto.id,
-    });
+  public async getUserById(getUserParamsDto: GetUserParamsDto) {
+    let user: User | null = null;
+    try {
+      user = await this.usersRepository.findOneBy({
+        id: getUserParamsDto.id,
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
+
+    if (!user) {
+      throw new BadRequestException('User not found.');
+    }
+
     return user;
   }
 
@@ -103,19 +134,52 @@ export class UsersService {
 
   public async createUser(createUserDto: CreateUserDto) {
     // Check if the user already exists
-    let existingUser = await this.usersRepository.findOne({
-      where: { email: createUserDto.email },
-    });
+    let existingUser: User | null = null;
+    try {
+      existingUser = await this.usersRepository.findOneBy({
+        email: createUserDto.email,
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
 
     if (existingUser) {
-      throw new Error('User already exists with this email');
+      throw new BadRequestException('The user with this email already exists.');
     }
 
     // Create a new user instance
     let newUser = this.usersRepository.create(createUserDto);
 
-    newUser = await this.usersRepository.save(newUser);
-
+    try {
+      newUser = await this.usersRepository.save(newUser);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error saving the user to the database.',
+        },
+      );
+    }
     return newUser;
+  }
+
+  /**
+   * Creates multiple users in the system.
+   * This method accepts an array of user data transfer objects and creates
+   * each user in a transaction. If any user creation fails, the transaction
+   * is rolled back to maintain data integrity.
+   *  @param {CreateUserDto[]} createUserDtos - Array of user data transfer objects
+   * @return {Promise<void>} Resolves when all users are created successfully
+   * @throws {Error} If any user creation fails, the transaction is rolled back
+   * @memberof UsersService
+   */
+
+  public async createMany(createUserDtos: CreateUserDto[]) {
+    return this.userCreateManyProvider.createMany(createUserDtos);
   }
 }
