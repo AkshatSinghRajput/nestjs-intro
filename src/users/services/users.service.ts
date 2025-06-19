@@ -1,19 +1,19 @@
 import {
   Injectable,
   Inject,
-  forwardRef,
   RequestTimeoutException,
   BadRequestException,
 } from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-user-params.dto';
-import { AuthService } from 'src/auth/services/auth.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
-import { UserCreateManyProvider } from './user-create-many.provider';
+import { UserCreateManyProvider } from '../providers/user-create-many.provider';
+import { CreateUserProvider } from '../providers/create-user.provider';
+import { FindOneUserByEmailProvider } from '../providers/find-one-user-by-email.provider';
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -41,6 +41,10 @@ export class UsersService {
     private usersRepository: Repository<User>,
 
     private readonly userCreateManyProvider: UserCreateManyProvider,
+
+    private readonly createUserProvider: CreateUserProvider,
+
+    private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider, // Assuming this provider is defined
   ) {}
 
   /**
@@ -115,6 +119,21 @@ export class UsersService {
   }
 
   /**
+   * Retrieves a user by their email address.
+   *
+   * This method fetches user information based on the provided email address.
+   * It returns the user object if found, or throws an error if the user does not exist.
+   *
+   * @param {string} email - The email address of the user to find
+   * @returns {Promise<User>} The user object if found
+   * @throws {BadRequestException} If no user with the provided email exists
+   * @memberof UsersService
+   */
+  public async getUserByEmail(email: string) {
+    return this.findOneUserByEmailProvider.findOneByEmail(email);
+  }
+
+  /**
    * Creates a new user in the system.
    * This method checks if a user with the provided email already exists,
    * and if not, creates a new user with the provided details.
@@ -133,39 +152,7 @@ export class UsersService {
    * */
 
   public async createUser(createUserDto: CreateUserDto) {
-    // Check if the user already exists
-    let existingUser: User | null = null;
-    try {
-      existingUser = await this.usersRepository.findOneBy({
-        email: createUserDto.email,
-      });
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to process your request at the moment please try later',
-        {
-          description: 'Error connecting to the database.',
-        },
-      );
-    }
-
-    if (existingUser) {
-      throw new BadRequestException('The user with this email already exists.');
-    }
-
-    // Create a new user instance
-    let newUser = this.usersRepository.create(createUserDto);
-
-    try {
-      newUser = await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to process your request at the moment please try later',
-        {
-          description: 'Error saving the user to the database.',
-        },
-      );
-    }
-    return newUser;
+    return this.createUserProvider.createUser(createUserDto);
   }
 
   /**

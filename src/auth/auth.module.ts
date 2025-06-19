@@ -2,6 +2,9 @@ import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from 'src/users/users.module';
+import { HashingProvider } from './providers/hashing.provider';
+import { BcryptProvider } from './providers/bcrypt.provider';
+import { SignInProvider } from './providers/sign-in.provider';
 
 /**
  * Authentication module that handles user authentication and authorization.
@@ -14,9 +17,16 @@ import { UsersModule } from 'src/users/users.module';
  * @description Manages authentication and authorization functionality
  */
 @Module({
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: HashingProvider,
+      useClass: BcryptProvider, // Use BcryptProvider as the implementation of HashingProvider
+    },
+    SignInProvider,
+  ],
   controllers: [AuthController],
   imports: [forwardRef(() => UsersModule)], // Import UsersModule with forwardRef if needed
-  exports: [AuthService], // Export AuthService if needed in other modules
+  exports: [AuthService, HashingProvider], // Export AuthService if needed in other modules
 })
 export class AuthModule {}
