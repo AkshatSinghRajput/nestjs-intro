@@ -15,6 +15,12 @@ export class TagsController {
   constructor(
     private readonly tagsService: TagsService, // Inject the TagsService for tag operations
   ) {}
+
+  @Get()
+  public findAllTags() {
+    return this.tagsService.findAllTags(); // Call the service to retrieve all tags
+  }
+
   @Post()
   public createTag(@Body() createTagDto: CreateTagDto) {
     return this.tagsService.createTag(createTagDto); // Call the service to create a new tag

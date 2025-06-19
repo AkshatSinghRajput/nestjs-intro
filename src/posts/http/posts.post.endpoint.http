@@ -16,3 +16,40 @@ Content-Type: application/json
     },
     "authorId": 1
 }
+
+
+POST http://localhost:3000/posts/create-many
+Content-Type: application/json
+{
+"posts":[
+  {
+    "title": "Advanced NestJS Authentication",
+    "postType": "post",
+    "slug": "advanced-nestjs-auth-214",
+    "status": "published",
+    "content": "Deep dive into NestJS authentication strategies",
+    "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Article\"\r\n }",
+    "featuredImageUrl": "http://localhost.com/images/auth-guide.jpg",
+    "publishOn": "2024-03-17T09:30:00+0000",
+    "tags":[2, 3],
+    "metaOptions" : {
+      "metaValue": "{ \"sidebarEnabled\": false, \"footerActive\": true }"
+      },
+      "authorId": 1
+  },
+  {
+    "title": "Building GraphQL APIs with NestJS",
+    "postType": "post",
+    "slug": "nestjs-graphql-apis-215",
+    "status": "published",
+    "content": "Complete guide to GraphQL integration in NestJS",
+    "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"TechArticle\"\r\n }",
+    "featuredImageUrl": "http://localhost.com/images/graphql-tutorial.jpg",
+    "publishOn": "2024-03-18T14:15:00+0000",
+    "tags":[2, 4],
+    "metaOptions" : {
+      "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": false }"
+      },
+      "authorId": 1
+  }
+]}

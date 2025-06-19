@@ -9,10 +9,13 @@ import { UsersService } from 'src/users/services/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Posts } from '../posts.entity';
-import { Repository } from 'typeorm';
-import { MetaOption } from 'src/meta-options/meta-options.entity';
+import { DataSource, Repository } from 'typeorm';
 import { TagsService } from 'src/tags/services/tags.service';
 import { PatchPostDto } from '../dtos/patch-post.dto';
+import { GetPostsDto } from '../dtos/get-post.dto';
+import { CreateManyPostsDto } from '../dtos/create-many-posts.dto';
+import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 
 /**
  * Posts service that provides post-related business logic and data operations.
@@ -43,8 +46,9 @@ export class PostsService {
     @InjectRepository(Posts)
     private postsRepository: Repository<Posts>, // Inject the Posts repository for database operations
 
-    @InjectRepository(MetaOption)
-    private metaOptionRepository: Repository<MetaOption>, // Inject the MetaOption repository for metadata operations
+    private readonly dataSource: DataSource, // Inject the DataSource for database operations
+
+    private readonly paginationProvider: PaginationProvider,
   ) {}
 
   /**
@@ -68,7 +72,10 @@ export class PostsService {
    * //   }
    * // ]
    */
-  public async findAll(userId: string) {
+  public async findAll(
+    postQuery: GetPostsDto,
+    userId: string,
+  ): Promise<Paginated<Posts>> {
     let user = await this.usersService.getUserById({
       id: parseInt(userId),
     });
@@ -76,11 +83,15 @@ export class PostsService {
       throw new UnauthorizedException('User not found or unauthorized');
     }
 
-    let posts: Posts[] = [];
+    let posts: Paginated<Posts>;
     try {
-      posts = await this.postsRepository.find({
-        where: { author: { id: user.id } },
-      });
+      posts = await this.paginationProvider.paginateQuery(
+        {
+          limit: postQuery.limit,
+          page: postQuery.page,
+        },
+        this.postsRepository,
+      );
     } catch (error) {
       throw new RequestTimeoutException(
         'Unable to process your request at the moment please try later',
@@ -93,38 +104,24 @@ export class PostsService {
   }
 
   /**
-   * Creates a new post with the provided data.
+   * Creates a new post in the system.
    *
-   * This method processes the post creation data, validates the content,
-   * and returns the created post with generated metadata including
-   * unique identification and creation timestamp.
+   * This method accepts post data through the request body and creates
+   * a new post with proper validation, content processing, and metadata
+   * management including slug generation and content categorization.
    *
-   * @param {CreatePostDto} createPostDto - The post data for creation
+   * @param {CreatePostDto} createPostDto - Post data for creating new content
    * @returns {object} The created post object with generated metadata
    * @memberof PostsService
    * @example
-   * const newPost = postsService.createPost({
+   * const newPost = await postsService.createPost({
    *   title: "Understanding NestJS",
    *   content: "NestJS is a powerful framework...",
-   *   postType: "POST"
+   *   postType: "POST",
+   *   authorId: 123,
    * });
    * // Returns: { id: 789, title: "Understanding NestJS", ... }
    */
-  // public async createPost(createPostDto: CreatePostDto) {
-  //   // Check if the post already exists
-  //   const existingPost = await this.postsRepository.findOne({
-  //     where: { slug: createPostDto.slug },
-  //   });
-
-  //   if (existingPost) {
-  //     throw new Error('Post already exists with this slug');
-  //   }
-
-  //   let newPost = this.postsRepository.create(createPostDto);
-  //   newPost = await this.postsRepository.save(newPost);
-
-  //   return newPost;
-  // }
 
   public async createPost(@Body() createPostDto: CreatePostDto) {
     // Find the author by ID
@@ -157,6 +154,21 @@ export class PostsService {
     return post;
   }
 
+  /**
+   * Deletes a post by its ID.
+   *
+   * This method removes a post from the system based on the provided post ID.
+   * It handles potential errors during the deletion process and returns a
+   * confirmation of the deletion.
+   *
+   * @param {number} id - The unique identifier of the post to be deleted
+   * @returns {object} Confirmation of deletion with post ID
+   * @memberof PostsService
+   * @example
+   * const result = await postsService.delete(456);
+   * // Returns: { deleted: true, id: 456 }
+   */
+
   public async delete(id: number) {
     try {
       await this.postsRepository.delete(id);
@@ -174,6 +186,23 @@ export class PostsService {
     }
   }
 
+  /**
+   * Updates an existing post with new information.
+   *
+   * This method modifies a post's details based on the provided patch data,
+   * including title, content, tags, and other metadata. It ensures that the
+   * post exists before attempting to update it and handles potential errors.
+   *
+   * @param {PatchPostDto} patchPostDto - Data transfer object containing post updates
+   * @returns {object} The updated post object
+   * @memberof PostsService
+   * @example
+   * const updatedPost = await postsService.patchPost({
+   *   id: 456,
+   *   title: "Updated Post Title",
+   * });
+   * // Returns: { id: 456, title: "Updated Post Title", ... }
+   */
   public async patchPost(patchPostDto: PatchPostDto) {
     // Find the tags
     let tags = await this.tagService.findMultipleTags(patchPostDto.tags || []);
@@ -222,5 +251,71 @@ export class PostsService {
     }
 
     return post;
+  }
+
+  /**
+   * Creates multiple posts in the system.
+   *
+   * This method accepts an array of post data transfer objects and creates
+   * each post in a transaction. If any post creation fails, the transaction
+   * is rolled back to maintain data integrity.
+   *
+   * @param {CreateManyPostsDto} createManyPostsDto - Data transfer object containing multiple posts
+   * @returns {Promise<Posts[]>} Array of created post objects
+   * @throws {BadRequestException} If no posts are provided for creation
+   * @memberof PostsService
+   */
+
+  public async createManyPosts(createManyPostsDto: CreateManyPostsDto) {
+    if (
+      !createManyPostsDto ||
+      !createManyPostsDto.posts ||
+      createManyPostsDto.posts.length === 0
+    ) {
+      throw new BadRequestException('No posts provided for creation');
+    }
+
+    const createdPosts: Posts[] = [];
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
+    try {
+      for (const postData of createManyPostsDto.posts) {
+        const createdPost = await this.createPost(postData);
+        createdPosts.push(createdPost);
+      }
+      await queryRunner.commitTransaction();
+      return createdPosts;
+    } catch (error) {
+      console.error('Error creating multiple posts:', error);
+      await queryRunner.rollbackTransaction();
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error saving the posts to the database.',
+        },
+      );
+    } finally {
+      try {
+        await queryRunner.release();
+      } catch (error) {
+        throw new RequestTimeoutException(
+          'Unable to process your request at the moment please try later',
+          {
+            description: 'Error releasing the database connection.',
+          },
+        );
+      }
+    }
   }
 }
