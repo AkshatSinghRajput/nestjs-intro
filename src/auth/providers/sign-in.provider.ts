@@ -1,4 +1,5 @@
 import {
+  Inject,
   Injectable,
   RequestTimeoutException,
   UnauthorizedException,
@@ -6,12 +7,19 @@ import {
 import { SignInDto } from '../dtos/signin.dto';
 import { UsersService } from 'src/users/services/users.service';
 import { HashingProvider } from './hashing.provider';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
+import jwtConfig from '../config/auth.config'; // Assuming jwtConfig is defined in your project
 
 @Injectable()
 export class SignInProvider {
   constructor(
     private readonly userServices: UsersService,
     private readonly hashingProvider: HashingProvider, // Assuming HashingProvider is defined
+    private readonly jwtService: JwtService, // Assuming JwtService is defined
+
+    @Inject(jwtConfig.KEY) // Injecting the JWT configuration
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
   public async signIn(signInDto: SignInDto) {
     let user = await this.userServices.getUserByEmail(signInDto.email);
@@ -30,6 +38,21 @@ export class SignInProvider {
     if (!isEqual) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return true;
+
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        email: user.email,
+      },
+      {
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+        secret: this.jwtConfiguration.secret,
+        expiresIn: this.jwtConfiguration.accessTokenTtl,
+      },
+    );
+    return {
+      accessToken,
+    };
   }
 }
