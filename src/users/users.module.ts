@@ -9,7 +9,6 @@ import { UserCreateManyProvider } from './providers/user-create-many.provider';
 import { CreateUserProvider } from './providers/create-user.provider';
 import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.provider';
 import profileConfig from './config/profile.config';
-
 /**
  * Users module that manages user-related functionality.
  *
@@ -22,7 +21,12 @@ import profileConfig from './config/profile.config';
  */
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, UserCreateManyProvider, CreateUserProvider, FindOneUserByEmailProvider],
+  providers: [
+    UsersService,
+    UserCreateManyProvider,
+    CreateUserProvider,
+    FindOneUserByEmailProvider,
+  ],
   exports: [UsersService], // Export UsersService if needed in other modules
   imports: [
     forwardRef(() => AuthModule),

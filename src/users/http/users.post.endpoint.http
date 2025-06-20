@@ -1,9 +1,10 @@
 POST http://localhost:3000/users
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTA0MTM4MjQsImV4cCI6MTc1MDQxNzQyNCwiYXVkIjoibG9jYWxob3N0OjMwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMCJ9.irZq7fVJ54QXyCS-kOXG8jNaFVG1HWynqcDuQGRYzQ4
 
 {
-    "firstName": "John",
+    "firstName": "Jane1",
     "lastName": "Doe",
-    "email": "john.doe@example.com",
+    "email": "jane.doe1@example.com",
     "password": "Password@123"
 }

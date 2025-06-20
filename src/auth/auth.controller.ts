@@ -9,6 +9,8 @@ import {
 import { AuthService } from './services/auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SignInDto } from './dtos/signin.dto';
+import { Auth } from './decorators/auth.decorator';
+import { AuthType } from './enums/auth-type.enum';
 
 /**
  * Authentication controller that handles HTTP requests related to user authentication.
@@ -33,6 +35,7 @@ export class AuthController {
 
   @Post('sign-in')
   @HttpCode(HttpStatus.OK)
+  @Auth(AuthType.None)
   public async signIn(@Body() signInDto: SignInDto) {
     /**
      * Handles user sign-in requests.

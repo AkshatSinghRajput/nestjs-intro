@@ -15,6 +15,8 @@ import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { GetPostsDto } from './dtos/get-post.dto';
 import { CreateManyPostsDto } from './dtos/create-many-posts.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
+import { ActiveUserInterface } from 'src/auth/interface/active-user.interface';
 
 /**
  * Posts controller that handles HTTP requests related to post management.
@@ -72,8 +74,11 @@ export class PostsController {
     description: 'Post created successfully',
   })
   @Post()
-  public createPost(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.createPost(createPostDto);
+  public createPost(
+    @Body() createPostDto: CreatePostDto,
+    @ActiveUser() user: ActiveUserInterface,
+  ) {
+    return this.postsService.createPost(createPostDto, user);
   }
 
   @Post('/create-many')

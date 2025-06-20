@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
+  IsDate,
   IsEnum,
   IsInt,
   IsISO8601,
@@ -11,7 +12,6 @@ import {
   IsUrl,
   Matches,
   MaxLength,
-  Min,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -94,7 +94,7 @@ export class CreatePostDto {
     description: 'The date on which the blog post is published',
     example: '2024-03-16T07:46:32+0000',
   })
-  @IsISO8601()
+  @IsDate()
   @IsOptional()
   publishOn?: Date;
 
@@ -126,13 +126,4 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionDto)
   metaOptions?: CreatePostMetaOptionDto | null;
-
-  @ApiProperty({
-    description: 'The ID of the user creating the post',
-    example: 1,
-    type: 'integer',
-  })
-  @IsInt()
-  @IsNotEmpty()
-  authorId: number; // This is the ID of the user creating the post
 }

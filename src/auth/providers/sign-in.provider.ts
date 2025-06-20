@@ -10,6 +10,7 @@ import { HashingProvider } from './hashing.provider';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/auth.config'; // Assuming jwtConfig is defined in your project
+import { ActiveUserInterface } from '../interface/active-user.interface';
 
 @Injectable()
 export class SignInProvider {
@@ -43,7 +44,7 @@ export class SignInProvider {
       {
         sub: user.id,
         email: user.email,
-      },
+      } as ActiveUserInterface,
       {
         audience: this.jwtConfiguration.audience,
         issuer: this.jwtConfiguration.issuer,

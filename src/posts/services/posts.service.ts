@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Body,
   Injectable,
   RequestTimeoutException,
   UnauthorizedException,
@@ -16,6 +15,8 @@ import { GetPostsDto } from '../dtos/get-post.dto';
 import { CreateManyPostsDto } from '../dtos/create-many-posts.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { CreatePostProvider } from '../providers/create-post.provider';
+import { ActiveUserInterface } from 'src/auth/interface/active-user.interface';
 
 /**
  * Posts service that provides post-related business logic and data operations.
@@ -49,6 +50,8 @@ export class PostsService {
     private readonly dataSource: DataSource, // Inject the DataSource for database operations
 
     private readonly paginationProvider: PaginationProvider,
+
+    private readonly createPostProvider: CreatePostProvider,
   ) {}
 
   /**
@@ -123,35 +126,11 @@ export class PostsService {
    * // Returns: { id: 789, title: "Understanding NestJS", ... }
    */
 
-  public async createPost(@Body() createPostDto: CreatePostDto) {
-    // Find the author by ID
-    let author = await this.usersService.getUserById({
-      id: createPostDto.authorId,
-    });
-    if (!author) {
-      throw new UnauthorizedException('Author not found or unauthorized');
-    }
-
-    let tags = await this.tagService.findMultipleTags(createPostDto.tags || []);
-
-    let post = this.postsRepository.create({
-      ...createPostDto,
-      author: author,
-      tags: tags,
-    });
-
-    try {
-      post = await this.postsRepository.save(post);
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to process your request at the moment please try later',
-        {
-          description: 'Error connecting to the database.',
-        },
-      );
-    }
-
-    return post;
+  public async createPost(
+    createPostDto: CreatePostDto,
+    user: ActiveUserInterface,
+  ) {
+    return this.createPostProvider.createPost(createPostDto, user);
   }
 
   /**
@@ -291,8 +270,8 @@ export class PostsService {
     }
     try {
       for (const postData of createManyPostsDto.posts) {
-        const createdPost = await this.createPost(postData);
-        createdPosts.push(createdPost);
+        // const createdPost = await this.createPost(postData);
+        // createdPosts.push(createdPost);
       }
       await queryRunner.commitTransaction();
       return createdPosts;

@@ -7,6 +7,7 @@ import { Posts } from './posts.entity';
 import { MetaOption } from 'src/meta-options/meta-options.entity';
 import { TagsModule } from 'src/tags/tags.module';
 import { PaginationModule } from 'src/common/pagination/pagination.module';
+import { CreatePostProvider } from './providers/create-post.provider';
 
 /**
  * Posts module that manages post-related functionality.
@@ -21,7 +22,7 @@ import { PaginationModule } from 'src/common/pagination/pagination.module';
  */
 @Module({
   controllers: [PostsController],
-  providers: [PostsService],
+  providers: [PostsService, CreatePostProvider],
   imports: [
     UsersModule,
     TagsModule,
