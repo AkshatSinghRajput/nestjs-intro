@@ -8,6 +8,8 @@ import { SignInProvider } from './providers/sign-in.provider';
 import { ConfigModule } from '@nestjs/config';
 import authConfig from './config/auth.config';
 import { JwtModule } from '@nestjs/jwt';
+import { GenerateTokensProvider } from './providers/generate-tokens.provider';
+import { RefreshTokenProvider } from './providers/refresh-token.provider';
 
 /**
  * Authentication module that handles user authentication and authorization.
@@ -27,6 +29,8 @@ import { JwtModule } from '@nestjs/jwt';
       useClass: BcryptProvider, // Use BcryptProvider as the implementation of HashingProvider
     },
     SignInProvider,
+    GenerateTokensProvider,
+    RefreshTokenProvider,
   ],
   controllers: [AuthController],
   imports: [

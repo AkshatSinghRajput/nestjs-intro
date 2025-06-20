@@ -1,7 +1,8 @@
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
-import { UsersService } from 'src/users/services/users.service';
 import { SignInProvider } from '../providers/sign-in.provider';
 import { SignInDto } from '../dtos/signin.dto';
+import { RefreshTokenProvider } from '../providers/refresh-token.provider';
+import { RefreshTokenDto } from '../dtos/refresh-token.dto';
 
 /**
  * Authentication service that provides authentication and authorization logic.
@@ -21,7 +22,10 @@ export class AuthService {
    * @param {UsersService} usersService - The injected users service for user operations
    * @memberof AuthService
    */
-  constructor(private readonly signInProvider: SignInProvider) {}
+  constructor(
+    private readonly signInProvider: SignInProvider,
+    private readonly refreshTokenProvider: RefreshTokenProvider,
+  ) {}
 
   /**
    * Signs in a user with the provided credentials.
@@ -34,5 +38,18 @@ export class AuthService {
 
   public async signIn(signInDto: SignInDto) {
     return await this.signInProvider.signIn(signInDto);
+  }
+
+  /**
+   * Refreshes the authentication tokens using the provided refresh token.
+   *
+   * @param {RefreshTokenDto} refreshTokenDto - The data transfer object containing the refresh token
+   * @returns {Promise<any>} A promise that resolves to the new authentication tokens
+   * @throws {UnauthorizedException} If the refresh token is invalid
+   * @memberof AuthService
+   */
+
+  public async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    return await this.refreshTokenProvider.refreshTokens(refreshTokenDto);
   }
 }

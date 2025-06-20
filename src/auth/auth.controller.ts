@@ -11,6 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { SignInDto } from './dtos/signin.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/auth-type.enum';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 /**
  * Authentication controller that handles HTTP requests related to user authentication.
@@ -45,5 +46,12 @@ export class AuthController {
      * @memberof AuthController
      */
     return this.authService.signIn(signInDto);
+  }
+
+  @Post('refresh-token')
+  @HttpCode(HttpStatus.OK)
+  @Auth(AuthType.None)
+  public async refreshToken(@Body() refreshTokenDto: RefreshTokenDto) {
+    return this.authService.refreshToken(refreshTokenDto);
   }
 }
