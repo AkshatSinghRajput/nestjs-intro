@@ -82,8 +82,11 @@ export class PostsController {
   }
 
   @Post('/create-many')
-  public createManyPosts(@Body() createManyPostsDto: CreateManyPostsDto) {
-    return this.postsService.createManyPosts(createManyPostsDto);
+  public createManyPosts(
+    @Body() createManyPostsDto: CreateManyPostsDto,
+    user: ActiveUserInterface,
+  ) {
+    return this.postsService.createManyPosts(createManyPostsDto, user);
   }
 
   /**

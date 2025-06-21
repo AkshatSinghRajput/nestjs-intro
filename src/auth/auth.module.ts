@@ -10,6 +10,8 @@ import authConfig from './config/auth.config';
 import { JwtModule } from '@nestjs/jwt';
 import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { RefreshTokenProvider } from './providers/refresh-token.provider';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
 
 /**
  * Authentication module that handles user authentication and authorization.
@@ -31,8 +33,9 @@ import { RefreshTokenProvider } from './providers/refresh-token.provider';
     SignInProvider,
     GenerateTokensProvider,
     RefreshTokenProvider,
+    GoogleAuthenticationService,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   imports: [
     forwardRef(() => UsersModule),
     ConfigModule.forFeature(authConfig), // Import authConfig for configuration

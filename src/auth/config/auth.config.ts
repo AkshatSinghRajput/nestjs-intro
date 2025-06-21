@@ -12,4 +12,6 @@ export default registerAs('authConfig', () => ({
     (process.env.JWT_REFRESH_TOKEN_TTL as string) ?? '86400',
     10,
   ),
+  googleClientId: process.env.GOOGLE_CLIENT_ID as string,
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
 }));

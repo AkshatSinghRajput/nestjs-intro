@@ -14,6 +14,9 @@ import profileConfig from '../config/profile.config';
 import { UserCreateManyProvider } from '../providers/user-create-many.provider';
 import { CreateUserProvider } from '../providers/create-user.provider';
 import { FindOneUserByEmailProvider } from '../providers/find-one-user-by-email.provider';
+import { FindOneByGoogleIdProvider } from '../providers/find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from '../providers/create-google-user.provider';
+import { GoogleUserInterface } from '../interfaces/google-user.interface';
 
 /**
  * Users service that provides user-related business logic and data operations.
@@ -45,6 +48,10 @@ export class UsersService {
     private readonly createUserProvider: CreateUserProvider,
 
     private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider, // Assuming this provider is defined
+
+    private readonly findOneUserByGoogleIdProvider: FindOneByGoogleIdProvider,
+
+    private readonly createGoogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
   /**
@@ -134,6 +141,22 @@ export class UsersService {
   }
 
   /**
+   * Retrieves a user by their Google ID.
+   *
+   * This method fetches user information based on the provided Google ID.
+   * It returns the user object if found, or throws an error if the user does not exist.
+   *
+   * @param {string} googleId - The Google ID of the user to find
+   * @returns {Promise<User>} The user object if found
+   * @throws {BadRequestException} If no user with the provided Google ID exists
+   * @memberof UsersService
+   */
+
+  public async getUserByGoogleId(googleId: string) {
+    return this.findOneUserByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
+
+  /**
    * Creates a new user in the system.
    * This method checks if a user with the provided email already exists,
    * and if not, creates a new user with the provided details.
@@ -153,6 +176,10 @@ export class UsersService {
 
   public async createUser(createUserDto: CreateUserDto) {
     return this.createUserProvider.createUser(createUserDto);
+  }
+
+  public async createGoogleUser(googleUser: GoogleUserInterface) {
+    return this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 
   /**

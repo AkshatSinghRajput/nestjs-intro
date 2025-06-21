@@ -17,6 +17,7 @@ import { PaginationProvider } from 'src/common/pagination/providers/pagination.p
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 import { CreatePostProvider } from '../providers/create-post.provider';
 import { ActiveUserInterface } from 'src/auth/interface/active-user.interface';
+import { User } from 'src/users/user.entity';
 
 /**
  * Posts service that provides post-related business logic and data operations.
@@ -245,7 +246,10 @@ export class PostsService {
    * @memberof PostsService
    */
 
-  public async createManyPosts(createManyPostsDto: CreateManyPostsDto) {
+  public async createManyPosts(
+    createManyPostsDto: CreateManyPostsDto,
+    user: ActiveUserInterface,
+  ) {
     if (
       !createManyPostsDto ||
       !createManyPostsDto.posts ||

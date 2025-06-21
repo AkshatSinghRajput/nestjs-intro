@@ -24,6 +24,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsI
 
 POST http://localhost:3000/posts/create-many
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTA0OTE2NjQsImV4cCI6MTc1MDQ5NTI2NCwiYXVkIjoibG9jYWxob3N0OjMwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMCJ9.jNTqCvlfojVdRnAv06Rgj5AXideDPos8vOvFeYSOo88
+
+
 {
 "posts":[
   {
@@ -35,11 +38,10 @@ Content-Type: application/json
     "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Article\"\r\n }",
     "featuredImageUrl": "http://localhost.com/images/auth-guide.jpg",
     "publishOn": "2024-03-17T09:30:00+0000",
-    "tags":[2, 3],
+    "tags":[1],
     "metaOptions" : {
       "metaValue": "{ \"sidebarEnabled\": false, \"footerActive\": true }"
-      },
-      "authorId": 1
+      }
   },
   {
     "title": "Building GraphQL APIs with NestJS",
@@ -50,10 +52,9 @@ Content-Type: application/json
     "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"TechArticle\"\r\n }",
     "featuredImageUrl": "http://localhost.com/images/graphql-tutorial.jpg",
     "publishOn": "2024-03-18T14:15:00+0000",
-    "tags":[2, 4],
+    "tags":[1],
     "metaOptions" : {
       "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": false }"
-      },
-      "authorId": 1
+      }
   }
 ]}
